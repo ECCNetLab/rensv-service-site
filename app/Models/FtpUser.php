@@ -10,7 +10,7 @@ class FtpUser extends Model
     use HasFactory;
 
     protected $fillable = [
-        'retal_server_id',
+        'rental_server_id',
         'name',
         'password',
     ];

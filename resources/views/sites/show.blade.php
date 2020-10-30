@@ -9,6 +9,17 @@
 
                 <div class="card-body">
                     サイトの情報
+
+                    <table class="table">
+                        <tr>
+                            <th>FTP URL</th>
+                            <td>{{ config('rensv.ftp_url') }}</td>
+                        </tr>
+                        <tr>
+                            <th>FTP User</th>
+                            <td>{{ $site->name }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

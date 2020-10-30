@@ -22,8 +22,6 @@ class CreateFtpLogsTable extends Migration
             $table->string('rhost');
             $table->timestamp('logtime');
             $table->timestamps();
-
-            $table->foreign('user')->references('name')->on('ftp_users');
         });
     }
 

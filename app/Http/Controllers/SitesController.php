@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\RentalServer;
+use App\Models\Plan;
+use App\Models\FtpUser;
 
 class SitesController extends Controller
 {
@@ -13,11 +16,34 @@ class SitesController extends Controller
 
     public function create(Request $request)
     {
-        return view('sites.create');
+        $plans = Plan::get();
+        return view('sites.create', compact('plans'));
     }
 
     public function store(Request $request)
     {
+        $item = $request->all();
+        $item['user_id'] = auth()->user()->id;
+        $item['plan_id'] = $item['plan'];
+        $ftpPassword = $request->ftpPassword;
+        unset($item['ftpPassword']);
+        unset($item['reFtpPassword']);
+
+        $rentalServer = new RentalServer();
+        $rentalServer->fill($item);
+        $rentalServer->save();
+
+        $ftpUser = new FtpUser();
+        $ftpUser->fill([
+            'name' => $item['name'],
+            'password' => \DB::raw("password('$ftpPassword')"),
+            'rental_server_id' => $rentalServer->id,
+        ]);
+        $ftpUser->save();
+
+        return redirect(route('sites.show', [
+            'site' => $rentalServer,
+        ]));
     }
 
     public function update(Request $request, RentalServer $site)

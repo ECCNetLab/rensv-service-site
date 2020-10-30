@@ -20,11 +20,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                        @foreach($sites as $s)
                             <tr>
-                                <td>test</td>
-                                <td>test.example.com</td>
-                                <td>standard</td>
+                                <td><a href="{{ route('sites.show', ['site' => $s]) }}">{{ $s->name }}</a></td>
+                                <td>{{ $s->domain }}.{{ config('rensv.domain') }}</td>
+                                <td>{{ $s->plan->name }}</td>
                             </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
