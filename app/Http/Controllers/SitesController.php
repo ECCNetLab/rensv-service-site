@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\RentalServer;
 use App\Models\Plan;
@@ -40,6 +43,14 @@ class SitesController extends Controller
             'rental_server_id' => $rentalServer->id,
         ]);
         $ftpUser->save();
+
+        $dirPath = '/tmp';
+        $dirName = $item['name'];
+        $process = new Process(['mkdir',$dirPath.'/'.$dirName]);
+        $process->run();
+        if(!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
 
         return redirect(route('sites.show', [
             'site' => $rentalServer,
