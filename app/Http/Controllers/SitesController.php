@@ -41,6 +41,12 @@ class SitesController extends Controller
         ]);
         $ftpUser->save();
 
+        $data = [
+            'documentRoot' => '/var/www/html/'.$item['name'],
+            'serverName' => $item['name'].'.netlab.ecc.ac.jp',
+        ];
+        \Amqp::publish('routing-key', json_encode($data,JSON_UNESCAPED_SLASHES));
+
         return redirect(route('sites.show', [
             'site' => $rentalServer,
         ]));
