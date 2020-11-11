@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\RentalServer;
 use App\Models\Plan;
 use App\Models\FtpUser;
@@ -29,23 +30,31 @@ class SitesController extends Controller
         unset($item['ftpPassword']);
         unset($item['reFtpPassword']);
 
-        $rentalServer = new RentalServer();
-        $rentalServer->fill($item);
-        $rentalServer->save();
+        DB::beginTransaction();
+        try {
+            $rentalServer = new RentalServer();
+            $rentalServer->fill($item);
+            $rentalServer->save();
 
-        $ftpUser = new FtpUser();
-        $ftpUser->fill([
-            'name' => $item['name'],
-            'password' => \DB::raw("password('$ftpPassword')"),
-            'rental_server_id' => $rentalServer->id,
-        ]);
-        $ftpUser->save();
+            $ftpUser = new FtpUser();
+            $ftpUser->fill([
+                'name' => $item['name'],
+                'password' => \DB::raw("password('$ftpPassword')"),
+                'rental_server_id' => $rentalServer->id,
+            ]);
+            $ftpUser->save();
 
-        $data = [
-            'documentRoot' => '/var/www/html/'.$item['name'],
-            'serverName' => $item['name'].'.netlab.ecc.ac.jp',
-        ];
-        \Amqp::publish('routing-key', json_encode($data,JSON_UNESCAPED_SLASHES));
+            $data = [
+                'documentRoot' => '/var/www/html/'.$item['name'],
+                'serverName' => $item['name'].'.netlab.ecc.ac.jp',
+            ];
+            \Amqp::publish('routing-key', json_encode($data,JSON_UNESCAPED_SLASHES));
+
+            DB::commit();
+        } catch (\PDOException $e) {
+            DB::rollBack();
+            abort(500);
+        }
 
         return redirect(route('sites.show', [
             'site' => $rentalServer,
