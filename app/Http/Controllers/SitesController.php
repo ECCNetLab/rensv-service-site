@@ -44,7 +44,7 @@ class SitesController extends Controller
         ]);
         $ftpUser->save();
 
-        $dirPath = '/tmp';
+        $dirPath = env('DIR_PATH','/tmp');
         $dirName = $item['name'];
         $process = new Process(['mkdir',$dirPath.'/'.$dirName]);
         $process->run();
