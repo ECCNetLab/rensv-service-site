@@ -46,7 +46,7 @@ class SitesController extends Controller
 
             $data = [
                 'documentRoot' => '/var/www/html/'.$item['name'],
-                'serverName' => $item['name'].'.netlab.ecc.ac.jp',
+                'serverName' => $item['name'].'.'.config('rensv.domain'),
             ];
             \Amqp::publish('routing-key', json_encode($data,JSON_UNESCAPED_SLASHES));
 
