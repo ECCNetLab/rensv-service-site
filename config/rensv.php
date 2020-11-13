@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'domain' => 'example.com',
-    'ftp_url' => 'ftp.example.com',
+    'domain'  => env('RENSV_DOMAIN', 'example.com'),
+    'ftp_url' => env('FTP_URL', 'ftp.example.com'),
 ];
