@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\SitesRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\RentalServer;
 use App\Models\Plan;
@@ -21,14 +22,14 @@ class SitesController extends Controller
         return view('sites.create', compact('plans'));
     }
 
-    public function store(Request $request)
+    public function store(SitesRequest $request)
     {
         $item = $request->all();
         $item['user_id'] = auth()->user()->id;
         $item['plan_id'] = $item['plan'];
         $ftpPassword = $request->ftpPassword;
         unset($item['ftpPassword']);
-        unset($item['reFtpPassword']);
+        unset($item['ftpPassword_confirmation']);
 
         DB::beginTransaction();
         try {
