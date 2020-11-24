@@ -11,6 +11,16 @@ services:
         TZ: "Asia/Tokyo"
     ports:
       - "3306:3306"
+  mysql-user:
+    image: mysql:5.7
+    environment:
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        MYSQL_USER: laravel
+        MYSQL_PASSWORD: password
+        MYSQL_ROOT_PASSWORD: password
+        TZ: "Asia/Tokyo"
+    ports:
+      - "3307:3306"
   my-queue:
       container_name: rabbitmq
       image: rabbitmq:3.7.4-management
