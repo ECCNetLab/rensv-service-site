@@ -33,6 +33,10 @@ class SitesController extends Controller
         unset($item['ftpPassword']);
         unset($item['reFtpPassword']);
 
+        // とりあえずDBとそれにアクセスできるユーザーを作成
+        DB::connection('mysql-user')->statement('CREATE DATABASE IF NOT EXISTS ' . $item["name"]);
+        DB::connection('mysql-user')->statement('GRANT ALL ON '. $item['name'].'.* to '.$item['name']. '@`%` identified by "'. $ftpPassword .'"');
+
         DB::beginTransaction();
         try {
             $rentalServer = new RentalServer();
@@ -51,7 +55,7 @@ class SitesController extends Controller
                 'documentRoot' => '/var/www/html/'.$item['name'],
                 'serverName' => $item['name'].'.'.config('rensv.domain'),
             ];
-            \Amqp::publish('routing-key', json_encode($data,JSON_UNESCAPED_SLASHES));
+            \Amqp::publish('routing-key', json_encode($data, JSON_UNESCAPED_SLASHES));
 
             DB::commit();
         } catch (\PDOException $e) {
@@ -59,11 +63,12 @@ class SitesController extends Controller
             abort(500);
         }
 
+
         $dirPath = config('directory.dir_path');
         $dirName = $item['name'];
         $process = new Process(['mkdir',$dirPath.'/'.$dirName]);
         $process->run();
-        if(!$process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 
