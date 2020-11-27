@@ -25,7 +25,7 @@ class SitesRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:32',
-            'domain' => 'required|unique:rental_servers,domain,regex:/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$/',
+            'domain' => 'required|unique:rental_servers,domain|regex:/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$/',
             'ftpPassword' => 'required|confirmed|min:8|max:32',
             'frpPassword_confirmation' => 'required',
             'plan' => 'required',

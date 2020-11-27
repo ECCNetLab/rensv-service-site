@@ -41,8 +41,8 @@
                             <input type="password" class="form-control" name="ftpPassword" id="ftpPassword" aria-describedby="ftpPassword" placeholder="FTPパスワード" required>
                         </div>
                         <div class="form-group">
-                            <label for="reFtpPassword">FTP パスワード(確認)</label>
-                            <input type="password" class="form-control" name="reFtpPassword" id="reFtpPassword" aria-describedby="reFtpPassword" placeholder="FTPパスワード(確認)" required>
+                            <label for="frpPassword_confirmation">FTP パスワード(確認)</label>
+                            <input type="password" class="form-control" name="frpPassword_confirmation" id="frpPassword_confirmation" aria-describedby="frpPassword_confirmation" placeholder="FTPパスワード(確認)" required>
                         </div>
                         <div class="form-group">
                         <label>プラン</label>
