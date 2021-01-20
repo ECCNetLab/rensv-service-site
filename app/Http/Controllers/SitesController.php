@@ -66,7 +66,7 @@ class SitesController extends Controller
 
         $dirPath = config('directory.dir_path');
         $dirName = $item['name'];
-        $process = new Process(['mkdir',$dirPath.'/'.$dirName]);
+        $process = new Process(['mkdir','-m','777',$dirPath.'/'.$dirName]);
         $process->run();
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
