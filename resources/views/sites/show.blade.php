@@ -19,6 +19,10 @@
                             <th>FTP User</th>
                             <td>{{ $site->name }}</td>
                         </tr>
+                        <tr>
+                            <th>MySQL URL</th>
+                            <td>{{ config('database.connections.mysql-user.host') }}:{{ config('database.connections.mysql-user.port') }}
+                        </tr>
                     </table>
                 </div>
             </div>
