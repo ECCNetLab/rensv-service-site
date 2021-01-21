@@ -66,8 +66,8 @@ return [
         'mysql-user' => [
             'driver' => 'mysql',
             'url' => env('RENSV_USER_DATABASE_URL'),
-            'host' => env('RENSV_USER_DB_HOST', '127.0.0.1'),
-            'port' => env('RENSV_USER_DB_PORT', '3307'),
+            'host' => env('RENSV_UESR_DB_HOST', '127.0.0.1'),
+            'port' => env('RENSV_UESR_DB_PORT', '3307'),
             'database' => null,
             'username' => env('RENSV_USER_DB_USERNAME', 'forge'),
             'password' => env('RENSV_USER_DB_PASSWORD', ''),
